@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-const API_KEY = "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"; // replace with your key
+
+const API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
+
 const MODEL = "qwen/qwen2.5-vl-72b-instruct:free";
 
 const Chatbot = () => {
