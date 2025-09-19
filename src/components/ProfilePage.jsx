@@ -9,7 +9,7 @@ import profilePic from '../assets/profile-photo.png'; // Make sure to have this 
 import progressIcon from '../assets/progress-icon.png';
 import courseIcon from '../assets/course-Icon.png';
 import quizIcon from '../assets/quiz-Icon.png';
-import subjectIcon from '../assets/subject-icon.png';
+import subjectIcon from '../assets/subject-Icon.png';
 import achievementTrophy from '../assets/achievement-star.png';
 import achievementBadge from '../assets/achievement-badge.png';
 import achievementStar from '../assets/achievement-Trophy.png';
