@@ -1,0 +1,43 @@
+/* Chatbot.css */
+
+.cube {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spin 10s linear infinite;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 12px;
+  backface-visibility: hidden;
+}
+
+/* 3D Cube Faces */
+.front { transform: translateZ(90px); }
+.back { transform: rotateY(180deg) translateZ(90px); }
+.right { transform: rotateY(90deg) translateZ(90px); }
+.left { transform: rotateY(-90deg) translateZ(90px); }
+.top { transform: rotateX(90deg) translateZ(90px); }
+.bottom { transform: rotateX(-90deg) translateZ(90px); }
+
+/* Keyframe Animations */
+@keyframes spin {
+  from { transform: rotateX(0) rotateY(0); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+@keyframes spin2 {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin2 1s linear infinite;
+}

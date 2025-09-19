@@ -1,0 +1,72 @@
+
+/* responsive.css - updated */
+
+/* Full height and width base */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Images responsive */
+img, svg { max-width: 100%; height: auto; }
+
+* { box-sizing: border-box; }
+
+/* Full-width containers */
+.container,
+.main-content-container,
+.leaderboard-page-container,
+.register-page-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Flex & grids stretch */
+.main-content-section,
+.top-ranks-container,
+.podium-container,
+.profile-grid,
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.left-panel, .right-panel, .sidebar {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Forms and cards */
+.register-form, .card, .profile-card, .leaderboard-card {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Navbar full width */
+.navbar, .nav-bar, .navbar-container { width: 100%; }
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .main-content-section { padding: 1rem; }
+  .left-panel, .right-panel, .sidebar { flex: 1 1 45%; min-width: 260px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .main-content-section { flex-direction: column; }
+  .left-panel, .right-panel, .sidebar { flex: 1 1 100%; }
+  .register-page-container { padding: 1.5rem 0.75rem 4rem; }
+}
+
+@media (max-width: 480px) {
+  html, body, #root { font-size: 14px; }
+  .register-page-container, .leaderboard-page-container { padding: 1rem 0.5rem 3.5rem; }
+  .top-ranks-container { flex-direction: column; align-items: center; gap: 1rem; }
+  .podium-player { width: 90%; max-width: 360px; }
+  .profile-avatar { margin: 0 auto; display: block; }
+}

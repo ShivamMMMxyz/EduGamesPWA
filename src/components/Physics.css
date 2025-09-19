@@ -1,0 +1,49 @@
+/* Custom animations */
+@import "tailwindcss";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.choice-anim { 
+  transition: transform .12s ease, box-shadow .12s ease; 
+}
+.choice-anim:active { 
+  transform: scale(.98); 
+}
+.progress-inner { 
+  transition: width .35s ease; 
+}
+.shake { 
+  animation: shake .45s; 
+}
+@keyframes shake { 
+  20% { transform: translateX(-6px);} 
+  40% { transform: translateX(6px);} 
+  60% { transform: translateX(-4px);} 
+  80% { transform: translateX(4px);} 
+}
+.float-up { 
+  animation: floatUp .9s ease forwards; 
+}
+@keyframes floatUp { 
+  0% { opacity: 1; transform: translateY(0);} 
+  100% { opacity: 0; transform: translateY(-30px);} 
+}
+
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(20px);} 
+  to { opacity: 1; transform: translateY(0);} 
+}
+.animate-fadeIn { 
+  animation: fadeIn 1s ease-out forwards; 
+}

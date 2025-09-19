@@ -1,0 +1,50 @@
+.navbar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 50, 0.85);
+  backdrop-filter: blur(10px);
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+  z-index: 50;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.nav-item:hover {
+  transform: translateY(-3px);
+  color: white;
+}
+
+.nav-item.active {
+  color: #4ade80; /* highlight active tab (green by default) */
+}
+
+.nav-icon {
+  font-size: 1.6rem; /* bigger icon */
+  margin-bottom: 0.2rem;
+}
+
+.nav-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}

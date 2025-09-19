@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Advanced Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
+      display: flex;
+      height: 100vh;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+      padding: 20px;
+      width: 100%;
+    }
+    /* 3D Cube */
+    .cube {
+      width: 180px;
+      height: 180px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: spin 10s linear infinite;
+    }
+    .face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      border-radius: 12px;
+      backface-visibility: hidden;
+      box-shadow: 0 8px 24px rgba(2,6,23,0.6);
+      color: white;
+    }
+    .front  { background: linear-gradient(to bottom, #ff3ca6, #ff7abf); transform: translateZ(90px); }
+    .back   { background: linear-gradient(to bottom, #0ea5a9, #14b8a6); transform: rotateY(180deg) translateZ(90px); }
+    .right  { background: linear-gradient(to bottom, #3b82f6, #60a5fa); transform: rotateY(90deg) translateZ(90px); }
+    .left   { background: linear-gradient(to bottom, #8b5cf6, #a78bfa); transform: rotateY(-90deg) translateZ(90px); }
+    .top    { background: linear-gradient(to bottom, #fb923c, #fdba74); transform: rotateX(90deg) translateZ(90px); }
+    .bottom { background: linear-gradient(to bottom, #10b981, #34d399); transform: rotateX(-90deg) translateZ(90px); }
+    @keyframes spin {
+      from { transform: rotateX(0) rotateY(0); }
+      to { transform: rotateX(360deg) rotateY(360deg); }
+    }
+
+    .chatbox {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.02);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+      height: 100%;
+      position: relative;
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      line-height: 1.3;
+      position: relative;
+    }
+    .msg.user {
+      align-self: flex-end;
+      background: linear-gradient(to bottom, #0b93ff, #0369a1);
+      color: white;
+      border-bottom-right-radius: 6px;
+    }
+    .msg.assistant {
+      align-self: flex-start;
+      background: linear-gradient(to bottom, #1e293b, #0f1724);
+      color: #cfe8ff;
+      border-bottom-left-radius: 6px;
+      padding-right: 45px;
+    }
+    .msg small {
+      display: block;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 5px;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 5px;
+      right: 8px;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      padding: 3px 6px;
+      cursor: pointer;
+      color: #94a3b8;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.18);
+      color: white;
+    }
+    .input-area {
+      display: flex;
+      gap: 10px;
+      padding-top: 10px;
+    }
+    textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 200px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.05);
+      resize: none;
+      background: rgba(3,7,18,0.4);
+      color: white;
+    }
+    button {
+      width: 70px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(to bottom, #ff3ca6, #ff7abf);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    select {
+      border-radius: 8px;
+      padding: 5px;
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      margin-bottom: 10px;
+    }
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 5px solid rgba(255,255,255,0.1);
+      border-top: 5px solid #ff3ca6;
+      border-radius: 50%;
+      animation: spin2 1s linear infinite;
+    }
+    @keyframes spin2 {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <!-- Left Panel -->
+    <div>
+      <h3>3D Advanced Chatbot</h3>
+      <p style="font-size:12px;color:#94a3b8">Powered by OpenRouter</p>
+      <div style="display:flex;align-items:center;justify-content:center;height:80%;">
+        <div class="cube" id="cube">
+          <div class="face front">Ask</div>
+          <div class="face back">AI</div>
+          <div class="face right">Chat</div>
+          <div class="face left">3D</div>
+          <div class="face top">TS</div>
+          <div class="face bottom">Web</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="chatbox">
+      <label for="mode">Answer Mode:</label>
+      <select id="mode">
+        <option value="short">Short</option>
+        <option value="detailed">Detailed</option>
+      </select>
+
+      <div class="messages" id="messages">
+        <div class="msg assistant">
+          <small>Assistant</small>
+          Hello! I am your 3D chatbot. Type your question and press Enter.
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        </div>
+      </div>
+      <div class="input-area">
+        <textarea id="userInput" placeholder="Type a message..."></textarea>
+        <button onclick="sendMessage()">Send</button>
+      </div>
+      <div id="loading" class="loading" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
+    const API_KEY = "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"; // replace with your key
+    const MODEL = "qwen/qwen2.5-vl-72b-instruct:free";
+
+    const messagesEl = document.getElementById("messages");
+    const inputEl = document.getElementById("userInput");
+    const loadingEl = document.getElementById("loading");
+    const cube = document.getElementById("cube");
+    const modeEl = document.getElementById("mode");
+
+    function appendMessage(sender, text) {
+      const div = document.createElement("div");
+      div.className = `msg ${sender}`;
+      if (sender === "assistant") {
+        div.innerHTML = `
+          <small>Assistant</small>
+          <div style="white-space:pre-line;">${text}</div>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        `;
+      } else {
+        div.innerHTML = `<small>You</small><div style="white-space:pre-line;">${text}</div>`;
+      }
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function copyText(btn) {
+      const text = btn.previousElementSibling.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = "Copy", 1500);
+      });
+    }
+
+    function pulseCube() {
+      cube.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.06)' },
+        { transform: 'scale(1)' }
+      ], { duration: 700, easing: 'ease-out' });
+    }
+
+    async function callOpenRouter(userText) {
+      const mode = modeEl.value;
+      let instruction = "";
+      if (mode === "short") {
+        instruction = "Answer briefly in 2-3 sentences only. Do not use markdown symbols like ## or ###.";
+      } else {
+        instruction = "Give a detailed explanation in well-structured paragraphs with clear headings (without ## or ###). Use bullet points (-) or numbers for lists.";
+      }
+
+      const body = {
+        model: MODEL,
+        messages: [
+          { role: 'system', content: instruction },
+          { role: 'user', content: [{ type: 'text', text: userText }] }
+        ]
+      };
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: {
+          "Authorization": `Bearer ${API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      let output = "I couldn’t generate a response.";
+      if (data?.choices?.[0]) {
+        const choice = data.choices[0];
+        if (choice.message?.content) {
+          if (Array.isArray(choice.message.content)) {
+            output = choice.message.content.map(c => c.text || "").join("\n");
+          } else {
+            output = choice.message.content;
+          }
+        }
+      }
+      return output;
+    }
+
+    async function sendMessage() {
+      const text = inputEl.value.trim();
+      if (!text) return;
+      appendMessage("user", text);
+      inputEl.value = "";
+      loadingEl.style.display = "flex";
+
+      try {
+        const reply = await callOpenRouter(text);
+        appendMessage("assistant", reply);
+        pulseCube();
+      } catch (err) {
+        appendMessage("assistant", "Error: " + err.message);
+      } finally {
+        loadingEl.style.display = "none";
+      }
+    }
+
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
