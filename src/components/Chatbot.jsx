@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-const API_KEY = "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"; // replace with your key
+const API_KEY = "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"; // replace with your key
 const MODEL = "qwen/qwen2.5-vl-72b-instruct:free";
 
 const Chatbot = () => {
@@ -97,7 +97,7 @@ const Chatbot = () => {
           height: 40px;
           border: 5px solid rgba(255,255,255,0.1);
           border-top: 5px solid #ff3ca6;
-          border-radius: 50%;
+          border-radius: 50%
           animation: spin2 1s linear infinite;
         }
         @keyframes spin2 {
